@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	
+	<link rel="stylesheet"  href="css/themes/default/jquery.mobile-1.2.0.css" />
+
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery.mobile-1.2.0.js"></script>
+
+</head>
+
+<body>
+
+<div data-role="page" class="type-home" id="Home">
+	<div data-role="content">
+		<p class="jqm-version"></p>
+
+		<div class="content-secondary">
+
+			<div data-role ="header" data-theme="b" >
+			<center><p>Generic stealth  game document</p></center>
+			</div>
+
+			<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+				<li data-role="list-divider">Overview</li>
+				<li><a href="#PLAYER" data-transition="flip">Player</a></li>
+				<li><a href="#PlayerAI" data-transition="flip">PlayerAI</a></li>
+				<li><a href="#Point" data-transition="flip">Point</a></li>
+				<li><a href="#ENEMY" data-transition="flip">ENEMY</a></li>
+			</ul>
+
+		</div><!--/content-primary-->
+
+	</div>
+
+	<div data-role="footer" class="footer-docs" data-theme="c">
+            <p class="jqm-version"></p>
+			<p>Powered by jQuery Mobile</p>
+	</div>
+
+</div>
+
+<div data-role="page" id="PlayerAI">
+	<div data-role ="header" data-theme="b" >
+				<center><p>PlayerAI</p></center>				
+	</div>
+	<div class="content">
+		<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
+				<li data-role="list-divider">Overview</li>
+				<li><a href="#THINK" data-transition="flip">THINK</a></li>
+				<li><a href="#checkIfPassable" data-transition="flip">checkIfPassable</a></li>
+				<li><a href="#endAI" data-transition="flip">endAI</a></li>
+				<li><a href="#initAI" data-transition="flip">initAI</a></li>
+			</ul>
+	<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+	</div>
+	</div>
+	</div>
+</div>
+<!-- start of ENEMY -->
+<div data-role="page" id="ENEMY">
+	<div data-role ="header" data-theme="b" >
+				<center><p>ENEMY</p></center>	
+	</div>
+		<table data-role="table" id="my-table" data-mode="reflow" >
+  <thead class="ui-bar-d">
+    <tr>
+      <th>Functions</th>
+      <th>Description </th>
+    </tr>
+  </thead>
+  <tbody class="ui-body-d">
+    <tr>
+		<td> checkifSpotted(X,Y)</td>
+		<td> returns true if given coordinate would be spotted in light or overlaps enemy else returns false.</td>
+	</tr>
+	  <tr>
+		<td> getFacing()</td>
+		<td> would return a number between 0-3 which would indicate which way the enemy is facing. 
+		<br> 0- Facing Up
+		<br> 1- Facing Down
+		<br> 2- Facing Left
+		<br> 3- Faciung Right
+		</td>
+	</tr>
+	<tr>
+		<td> getWayPoints()</td>
+		<td>returns an Array of <a href="#Point">Points</a> in which the bot is assinged to move around to</td>
+	</tr>
+	<tr>
+		<td> getX()</td>
+		<td>returns current x coordinate of enemy</td>
+	</tr>
+		<tr>
+		<td> getY()</td>
+		<td>returns current y coordinate of enemy</td>
+	</tr>
+	  
+
+    </tbody>
+	</table>	
+	<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+	</div>
+		</div>
+</div>
+<!-- End of ENEMY -->
+<!-- Start of PLAYER -->
+<div data-role="page" id="PLAYER">
+	<div data-role ="header" data-theme="b" >
+				<center><p>PLAYER</p></center>
+	</div>
+	<table data-role="table" id="my-table" data-mode="reflow" >
+  <thead class="ui-bar-d">
+    <tr>
+      <th>Functions</th>
+      <th>Description </th>
+    </tr>
+  </thead>
+  <tbody class="ui-body-d">
+    <tr>
+		<td> getX()</td>
+		<td> return the current X coordinate of player</td>
+	</tr>
+	  <tr>
+		<td> getY()</td>
+		<td> return the current Y coordinate of player</td>
+	</tr>
+	   <tr>
+      <td>MoveUp()</td>
+      <td>returns true if able to set next move command else return false</td>
+	  <!--player,enemys,maplayout,end-->
+    </tr>
+	<tr>
+      <td>MoveDown()</td>
+      <td>returns true if able to set next move command else return false</td>
+	</tr>
+	<tr>
+      <td>MoveLeft()</td>
+      <td>returns true if able to set next move command else return false</td>
+	</tr>
+	<tr>
+      <td>MoveRight()</td>
+      <td>returns true if able to set next move command else return false</td>
+	</tr>
+
+    </tbody>
+	</table>			
+				
+	
+	<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+	</div>
+		</div>
+</div>
+<!-- END OF PLAYER-->
+<div data-role="page" id="Point">
+	<div data-role ="header" data-theme="b" >
+				<center><p>Point</p></center>
+				
+	</div>
+	
+		<table data-role="table" id="my-table" data-mode="reflow" >
+  <thead class="ui-bar-d">
+    <tr>
+      <th>Functions</th>
+      <th>Description </th>
+    </tr>
+  </thead>
+  <tbody class="ui-body-d">
+    <tr>
+		<td> getX()</td>
+		<td> returns the x value that was given in the Point</td>
+	</tr>
+    <tr>
+		<td> getY()</td>
+		<td> returns the y value that was given in the Point</td>
+	</tr>
+	 
+    </tbody>
+	</table>
+	
+		<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+		</div>
+			</div>
+	
+</div>
+
+<!--- Start of Player AI --->
+<!-- start of THINK-->
+<div data-role="page" id="THINK">
+	<div data-role ="header" data-theme="b" >
+				<center><p>THINK</p></center>
+	</div>
+	This function is called when ever the game updates.
+	<table data-role="table" id="my-table" data-mode="reflow" >
+  <thead class="ui-bar-d">
+    <tr>
+      <th>Parameter name</th>
+      <th>What it contains</th>
+    </tr>
+  </thead>
+  <tbody class="ui-body-d">
+    <tr>
+      <td><a href="#PLAYER">Player</a></td>
+      <td>This variable is the player variables</td>
+	  <!--player,enemys,maplayout,end-->
+    </tr>
+	<tr>
+      <td><a href="#ENEMY">enemys</a></td>
+      <td>this contains a array where enemys in  the current map are stored</td>
+	</tr>
+	<tr>
+      <td>maplayout</td>
+      <td>This is a 2d array of integers that represent the current map structure</td>
+	</tr>
+	<tr>
+      <td><a href="#Point">end</a></td>
+      <td>This parameter contains the x,y position of the last goal</td>
+	</tr>
+
+    </tbody>
+	</table>			
+
+		<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+	</div>
+		</div>
+	
+</div>
+<!-- end of THINK -->
+<!-- start of checkIfPassable -->
+<div data-role="page" id="checkIfPassable">
+	<div data-role ="header" data-theme="b" >
+		<center><p>checkIfPassable</p></center>
+	</div>
+					<table data-role="table" id="my-table" data-mode="reflow" >
+  <thead class="ui-bar-d">
+    <tr>
+      <th>Functions</th>
+      <th>Description </th>
+    </tr>
+  </thead>
+  <tbody class="ui-body-d">
+
+	<tr>
+		<td> checkIfPassable(int[] maplayout,ENEMY2[] enemys,int x,int y)</td>
+		<td>return true if x and y coordinates is not passable else it would return false</td>
+	</tr>
+	  
+
+    </tbody>
+	</table>	
+			
+	
+		<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+	</div>
+		</div>
+	
+</div>
+<!-- end of checkIfPassable -->
+
+<!-- Start of endAI -->
+<div data-role="page" id="endAI">
+	<div data-role ="header" data-theme="b" >
+				<center><p>endAI</p></center>			
+	</div>
+	This function will be called whenever the game finishes
+	<table data-role="table" id="my-table" data-mode="reflow" >
+  <thead class="ui-bar-d">
+    <tr>
+      <th>Parameter name</th>
+      <th>What it contains</th>
+    </tr>
+  </thead>
+  <tbody class="ui-body-d">
+    <tr>
+      <td>win</td>
+      <td>This variable contains a boolean that will become true once the game has ended</td>
+    </tr>
+    </tbody>
+</table>
+	
+		<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+	</div>
+		</div>
+	
+</div>
+<!-- end of endAI-->
+
+<!-- start of initAI-->
+<div data-role="page" id="initAI">
+	<div data-role ="header" data-theme="b" >
+				<center><p>initAI</p></center>
+	</div>
+						This function is only call when ever a new map is loaded or when the game restarts.
+<table data-role="table" id="my-table" data-mode="reflow" >
+  <thead class="ui-bar-d">
+    <tr>
+      <th>Parameter name</th>
+      <th>What it contains</th>
+    </tr>
+  </thead>
+  <tbody class="ui-body-d">
+    <tr>
+      <td><a href="#PLAYER">Player</a></td>
+      <td>This variable is the player variables</td>
+	  <!--player,enemys,maplayout,end-->
+    </tr>
+	<tr>
+      <td><a href="#ENEMY">enemys</a></td>
+      <td>this contains a array where enemys in  the current map are stored</td>
+	</tr>
+	<tr>
+      <td>maplayout</td>
+      <td>This is a 2d array of integers that represent the current map structure</td>
+	</tr>
+	<tr>
+      <td><a href="#Point">end</a></td>
+      <td>This parameter contains the x,y position of the last goal</td>
+	</tr>
+
+    </tbody>
+</table>
+		<div data-role="footer" class="footer-docs" data-theme="c">
+			<div data-role="button"><a href="#Home">HOME</a>
+	</div>
+	</div>
+	
+</div>
+<!-- end of initAI-->
+<!-- END OF PLAYER AI -->
+
+
+</body>
+</html>
