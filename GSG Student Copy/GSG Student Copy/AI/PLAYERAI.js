@@ -10,6 +10,7 @@ var enemyArea;
 var hazards;
 var direct = [[0,-1],[0,1],[-1,0],[1,0]];  
 var cur;
+var heatMap;
 var prev;  
 var next;   
 var enemyPos;           
@@ -28,11 +29,24 @@ function THINK(player,enemies,maplayout,end)
 			if(go>delay){
 				if(done){
 					hazards=genHazards(enemies, enemyArea);
+
 					Thinking(player, enemies, maplayout, end);
 				}
 			}
-			else
+			else {
+				for (let row = 0; row < 20; row++) {
+					for (let col = 0; col < 20; col++) {
+						var temp = {"x" : col, "y" : row};
+						for (let i = 0; i < enemies.length; i++) {
+							if (enemies[i].LightboxHit(temp)) {
+								heatMap[row][col]++;
+							}
+						}		
+					}
+				}
+				
 				go++;
+			}
 		}
 		else{
 				enemyArea = getEnemyArea(enemies, enemyArea);
@@ -46,12 +60,20 @@ function initAI (player,enemies,maplayout,end)
 {
 
 		go=0;
-		delay =random(4,11);
+		delay = 50;
 		process=0;
 		done = false
 		enemyArea=new Array(enemies.length);
+		heatMap = new Array(20);
 		for(var i=0; i<enemyArea.length; i++)
 			enemyArea[i]=new Array();
+		for (let j = 0; j < 20; j++) 
+			heatMap[j] = new Array(20);
+		for (let x = 0; x < 20; x++) {
+			for (let y = 0; y < 20; y++) {
+				heatMap[x][y] = 0;
+			}
+		}
 		cur=[player.getX(), player.getY()];
 		prev = [-1,-1];
 		hasMoved = true;
@@ -73,7 +95,7 @@ function Thinking(player, enemies, maplayout, end){
 				if(isHazardous(next)){
 					for(var i=0; i<direct.length; i++){
 						next = [cur[0]+direct[i][0], cur[1]+direct[i][1]];
-						if(!isHazardous(next)&&maplayout[next[0]][next[1]]!=3){
+						if(!isHazardous(next) && maplayout[next[0]][next[1]]!=3){
 							move = i;
 							break;
 						}
@@ -183,7 +205,7 @@ function genHazards(enemies, enemyArea){
 	var hazards=new Array();
 	enemyPos = new Array();
 	for(var h=0; h<enemies.length; h++){
-		enemy=[enemies[h].getX(),enemies[h].getY(),enemies[h].getFacing()];
+		enemy=[enemies[h].getX(), enemies[h].getY(), enemies[h].getFacing()];
 		for(var i=0; i<enemyArea.length;i++){
 			area=enemyArea[i];
 			for(var j=0; j<area.length; j++){
@@ -348,7 +370,8 @@ function pathFind(start, end, maplayout){
 				open = checkChange(curPos, next, g, open);
 			}
 			else{
-				open.push(new tile(next, curPos, h, g, g+h));
+				if (heatMap[next[1]][next[0]] == 0)
+					open.push(new tile(next, curPos, h, g, g+h));
 			}
 			if(next[0]==end[0]&&next[1]==end[1]){
 				closed.push(open[open.length-1]);
