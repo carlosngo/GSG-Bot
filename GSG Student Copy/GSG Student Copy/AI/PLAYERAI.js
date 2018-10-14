@@ -37,7 +37,7 @@ function THINK(player,enemies,maplayout,end)
 				}		
 			}
 		}
-		if(process > 50){
+		if(process > (enemies.length == 10 ? 20 : 50)){
 
 				if(done){
 					hazards=genHazards(enemies, enemyArea);
