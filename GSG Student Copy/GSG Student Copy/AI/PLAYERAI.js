@@ -390,17 +390,3 @@ function pathFind(start, end, maplayout){
 	}
 	return genPath(closed, start.getCoord(), end);
 }
-
-// Other functions 
-
-function random(start,end)
-{
-    return Math.floor((Math.random()*end)+start);
-}
-
-function endAI(win)
-{
-
-
-}
-
