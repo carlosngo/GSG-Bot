@@ -25,31 +25,28 @@ var process; // the current decision of the bot
 // This function is run during the game loop repeatedly.
 function THINK(player,enemies,maplayout,end)
 {		
-		if(process>50){
-			if(go>delay){
+		var string;
+		
+		for (let row = 0; row < 20; row++) {
+			for (let col = 0; col < 20; col++) {
+				var temp = {"x" : col, "y" : row};
+				for (let i = 0; i < enemies.length; i++) {
+					if (enemies[i].LightboxHit(temp)) {
+						heatMap[row][col]++;
+					}
+				}		
+			}
+		}
+		if(process > 50){
+
 				if(done){
 					hazards=genHazards(enemies, enemyArea);
-
 					Thinking(player, enemies, maplayout, end);
 				}
-			}
-			else {
-				for (let row = 0; row < 20; row++) {
-					for (let col = 0; col < 20; col++) {
-						var temp = {"x" : col, "y" : row};
-						for (let i = 0; i < enemies.length; i++) {
-							if (enemies[i].LightboxHit(temp)) {
-								heatMap[row][col]++;
-							}
-						}		
-					}
-				}
-				
-				go++;
-			}
 		}
 		else{
 				enemyArea = getEnemyArea(enemies, enemyArea);
+				
 				process++
 		}
 }
@@ -59,19 +56,17 @@ function THINK(player,enemies,maplayout,end)
 function initAI (player,enemies,maplayout,end)
 {
 
-		go=0;
-		delay = 50;
+		delay = 0;
 		process=0;
 		done = false
 		enemyArea=new Array(enemies.length);
 		heatMap = new Array(20);
-		for(var i=0; i<enemyArea.length; i++)
+		for(var i=0; i<enemyArea.length; i++) 
 			enemyArea[i]=new Array();
-		for (let j = 0; j < 20; j++) 
+		for (let j = 0; j < 20; j++) {
 			heatMap[j] = new Array(20);
-		for (let x = 0; x < 20; x++) {
 			for (let y = 0; y < 20; y++) {
-				heatMap[x][y] = 0;
+				heatMap[j][y] = 0;
 			}
 		}
 		cur=[player.getX(), player.getY()];
@@ -125,6 +120,7 @@ function getEnemyArea(enemies, area){
 		
 		x = enemies[i].getX();
 		y = enemies[i].getY();
+		heatMap[y][x]++;
 		f = enemies[i].getFacing();
 		if(!inArea(area[i],[x, y, f])){
 			
@@ -133,8 +129,9 @@ function getEnemyArea(enemies, area){
 			eLight.push([x,y]);
 			eLight.push(f);
 			list = enemies[i].Light.ListofArray;
-			for(var j=0; j<list.length; j++)
+			for(var j=0; j<list.length; j++) {
 				temp.push([list[j].x, list[j].y]);
+			}
 			eLight.push(temp);
 			area[i].push(eLight);
 		}
@@ -223,10 +220,18 @@ function genHazards(enemies, enemyArea){
 }
 
 function computeG(parent, child){
-	if(isHazardous(child))
+	
+	var pX = parent.getCoord()[0];
+	var pY = parent.getCoord()[1];
+
+	if(isHazardous(child)) {
 		return parent.getG()+1000;
-	else
-		return parent.getG()+10;
+	} else  {
+		if (pX >= 0 && pX < 20 && pY >= 0 && pY < 20 && child[0] >= 0 && child[0] < 20 && child[1] >= 0 && child[1] < 20) 
+			if (heatMap[child[1]][child[0]] > heatMap[pY][pX]) 
+				return parent.getG() + 400;
+		return parent.getG()+10;	
+	}
 }
 
 function computeH(point, end){
@@ -370,8 +375,7 @@ function pathFind(start, end, maplayout){
 				open = checkChange(curPos, next, g, open);
 			}
 			else{
-				if (heatMap[next[1]][next[0]] == 0)
-					open.push(new tile(next, curPos, h, g, g+h));
+				open.push(new tile(next, curPos, h, g, g+h));
 			}
 			if(next[0]==end[0]&&next[1]==end[1]){
 				closed.push(open[open.length-1]);
