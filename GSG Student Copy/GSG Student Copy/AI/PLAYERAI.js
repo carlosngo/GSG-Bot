@@ -390,3 +390,12 @@ function pathFind(start, end, maplayout){
 	}
 	return genPath(closed, start.getCoord(), end);
 }
+
+// Other functions 
+
+function endAI(win)
+{
+
+
+}
+
